@@ -11,13 +11,14 @@ import java.util.Iterator;
 import javax.swing.Timer;
 
 
-public class GameEngine implements KeyListener{
+public class GameEngine implements KeyListener, GameReporter{
 	GamePanel gp;
 		
 	private SpaceShip v;	
 	private Timer timer;
 	private double difficulty = 0.1;
-	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();	
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private long score = 0;	
 
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
@@ -52,9 +53,18 @@ public class GameEngine implements KeyListener{
 		Iterator<Enemy> e_iter = enemies.iterator();
 		while(e_iter.hasNext()){
 			Enemy e = e_iter.next();
-			e.proceed();	
+			e.proceed();
+
+			if(!e.isAlive()){
+				e_iter.remove();
+				gp.sprites.remove(e);
+				score += 100;
+			}	
 		}
-		gp.updateGameUI();
+		gp.updateGameUI(this);
+
+		
+
 	}
 	
 	public void die(){
@@ -73,6 +83,10 @@ public class GameEngine implements KeyListener{
 			difficulty += 0.1;
 			break;
 		}
+	}
+
+	public long getScore(){
+		return score;
 	}
 
 	@Override
