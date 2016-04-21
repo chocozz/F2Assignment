@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
+import java.awt.Toolkit;
+import java.awt.Image;
+
 public class GamePanel extends JPanel {
 	
 	private BufferedImage bi;	
@@ -16,13 +19,19 @@ public class GamePanel extends JPanel {
 	public GamePanel() {
 		bi = new BufferedImage(400, 600, BufferedImage.TYPE_INT_ARGB);
 		big = (Graphics2D) bi.getGraphics();
-		big.setBackground(Color.BLACK);
+
 	}
 
 	public void updateGameUI(GameReporter reporter){
 		big.clearRect(0, 0, 400, 600);
-		big.setColor(Color.WHITE);
-		big.drawString(String.format("%08d", reporter.getScore()), 300, 20);		
+
+		big.setColor(Color.RED);
+		big.drawString(String.format("Scores: %d", reporter.getScore()), 300, 20);	
+
+		big.setColor(Color.YELLOW);
+		big.drawString(String.format("Items: %d", reporter.getScoreItem()), 300, 40);
+
+
 		for(Sprite s : sprites){
 			s.draw(big);
 		}

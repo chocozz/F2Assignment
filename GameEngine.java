@@ -17,8 +17,13 @@ public class GameEngine implements KeyListener, GameReporter{
 	private SpaceShip v;	
 	private Timer timer;
 	private double difficulty = 0.1;
+	private double diffItem = 0.01;
+
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	private ArrayList<Item> item = new ArrayList<Item>();
+
 	private long score = 0;	
+	private long scoreitem = 0;
 
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
@@ -30,6 +35,7 @@ public class GameEngine implements KeyListener, GameReporter{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				process();
+				process2();
 			}
 		});
 		timer.setRepeats(true);
@@ -43,6 +49,12 @@ public class GameEngine implements KeyListener, GameReporter{
 		Enemy e = new Enemy((int)(Math.random()*390), 30);
 		gp.sprites.add(e);
 		enemies.add(e);
+	}
+
+	private void generateItem(){
+		Item e = new Item((int)(Math.random()*390), 30);
+		gp.sprites.add(e);
+		item.add(e);
 	}
 
 	private void process(){
@@ -61,6 +73,7 @@ public class GameEngine implements KeyListener, GameReporter{
 				score += 100;
 			}	
 		}
+
 		gp.updateGameUI(this);
 
 		Rectangle2D.Double vr = v.getRectangle();
@@ -73,6 +86,37 @@ public class GameEngine implements KeyListener, GameReporter{
 			}
 		}
 
+	}
+
+	private void process2(){
+		if(Math.random() < diffItem){
+			generateItem();
+		}
+		
+		Iterator<Item> e_iter = item.iterator();
+		while(e_iter.hasNext()){
+			Item e = e_iter.next();
+			e.proceed();
+			
+			if(!e.isAlive()){
+				e_iter.remove();
+				gp.sprites.remove(e);
+				//scoreitem += 1;
+			}
+		}
+		
+		gp.updateGameUI(this);
+		
+		Rectangle2D.Double vr = v.getRectangle();
+		Rectangle2D.Double er;
+		for(Item e : item){
+			er = e.getRectangle();
+			if(er.intersects(vr)){
+				e.getHit();
+				scoreitem += 1;
+				return;
+			}
+		}
 	}
 	
 	public void die(){
@@ -95,6 +139,10 @@ public class GameEngine implements KeyListener, GameReporter{
 
 	public long getScore(){
 		return score;
+	}
+
+	public long getScoreItem(){
+		return scoreitem;
 	}
 
 	@Override
