@@ -21,6 +21,7 @@ public class GameEngine implements KeyListener, GameReporter{
 
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Item> item = new ArrayList<Item>();
+	private ArrayList<Boss> boss= new ArrayList<Boss>();
 
 	private long score = 0;	
 	private long scoreitem = 0;
@@ -35,7 +36,6 @@ public class GameEngine implements KeyListener, GameReporter{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				process();
-				process2();
 			}
 		});
 		timer.setRepeats(true);
@@ -57,9 +57,18 @@ public class GameEngine implements KeyListener, GameReporter{
 		item.add(e);
 	}
 
+	private void generateBoss(){
+		Boss e = new Boss((int)(Math.random()*390), 30);
+		gp.sprites.add(e);
+		boss.add(e);
+	}
+
 	private void process(){
 		if(Math.random() < difficulty){  // define difficul of Enemy
 			generateEnemy();
+		}
+		if(Math.random() < diffItem){  // define difficul of Item
+			generateItem();
 		}
 		
 		Iterator<Enemy> e_iter = enemies.iterator();
@@ -71,7 +80,32 @@ public class GameEngine implements KeyListener, GameReporter{
 				e_iter.remove();
 				gp.sprites.remove(e);
 				score += 100;
+				if(score%1000 == 0)
+					generateBoss();
 			}	
+		}
+
+		Iterator<Boss> b_iter =boss.iterator();
+ 		while(b_iter.hasNext()){
+ 			Boss b = b_iter.next();
+ 			b.proceed();
+ 	
+ 			if(!b.isAlive()){
+ 				b_iter.remove();
+ 				gp.sprites.remove(b);
+ 			}
+ 		} 	
+
+ 		Iterator<Item> i_iter = item.iterator();
+		while(i_iter.hasNext()){
+			Item i = i_iter.next();
+			i.proceed();
+			
+			if(!i.isAlive()){
+				i_iter.remove();
+				gp.sprites.remove(i);
+				//scoreitem += 1;
+			}
 		}
 
 		gp.updateGameUI(this);
@@ -85,38 +119,23 @@ public class GameEngine implements KeyListener, GameReporter{
 				return;
 			}
 		}
-
-	}
-
-	private void process2(){
-		if(Math.random() < diffItem){
-			generateItem();
-		}
-		
-		Iterator<Item> e_iter = item.iterator();
-		while(e_iter.hasNext()){
-			Item e = e_iter.next();
-			e.proceed();
-			
-			if(!e.isAlive()){
-				e_iter.remove();
-				gp.sprites.remove(e);
-				//scoreitem += 1;
+		for(Boss b : boss){
+			er = b.getRectangle();
+			if(er.intersects(vr)){
+				die();
+				return;
 			}
 		}
-		
-		gp.updateGameUI(this);
-		
-		Rectangle2D.Double vr = v.getRectangle();
-		Rectangle2D.Double er;
-		for(Item e : item){
-			er = e.getRectangle();
+
+		for(Item i : item){
+			er = i.getRectangle();
 			if(er.intersects(vr)){
-				e.getHit();
+				i.getHit();
 				scoreitem += 1;
 				return;
 			}
 		}
+
 	}
 	
 	public void die(){
