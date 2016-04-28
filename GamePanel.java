@@ -39,6 +39,13 @@ public class GamePanel extends JPanel {
 		repaint();
 	}
 
+	public void StartGameUI(GameReporter reporter){
+ 		big.clearRect(0, 0, 400, 600);
+ 		
+ 		big.drawString(String.format("START GAME"),130, 250);
+ 		big.drawString(String.format("Please Enter"),130, 300); 
+ 	}
+
 	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;

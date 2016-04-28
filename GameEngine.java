@@ -42,7 +42,8 @@ public class GameEngine implements KeyListener, GameReporter{
 	}
 	
 	public void start(){
-		timer.start();
+		//timer.start();
+		gp.StartGameUI(this);
 	}
 	
 	private void generateEnemy(){
@@ -153,6 +154,10 @@ public class GameEngine implements KeyListener, GameReporter{
 		case KeyEvent.VK_D:
 			difficulty += 0.1;
 			break;
+
+		case KeyEvent.VK_ENTER:
+ 			timer.start();
+ 			break;
 		}
 	}
 
