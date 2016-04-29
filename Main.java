@@ -1,5 +1,3 @@
-package f2.spw;
-
 import javax.swing.*;
 import java.awt.*;
 

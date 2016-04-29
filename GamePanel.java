@@ -1,5 +1,3 @@
-package f2.spw;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -31,9 +29,6 @@ public class GamePanel extends JPanel {
 		big.setColor(Color.CYAN);
 		big.drawString(String.format("Items: %d", reporter.getScoreItem()), 300, 40);
 
-		big.setColor(Color.YELLOW);
-		big.drawString(String.format("(Boss:yellow)"), 300, 60);
-
 
 		for(Sprite s : sprites){
 			s.draw(big);
@@ -44,9 +39,11 @@ public class GamePanel extends JPanel {
 
 	public void StartGameUI(GameReporter reporter){
  		big.clearRect(0, 0, 400, 600);
- 		
+
  		big.drawString(String.format("START GAME"),130, 250);
  		big.drawString(String.format("Please Enter"),130, 300); 
+
+ 		repaint();
  	}
 
 	@Override

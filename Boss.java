@@ -1,5 +1,3 @@
-package f2.spw;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.AlphaComposite;
@@ -14,15 +12,15 @@ public class Boss extends Sprite{
 	public static final int Y_TO_DIE = 600;
 
 	public Boss(int x, int y){
-		super(x, y, 50, 20);
+		super(x, y, 80, 80);
 	}
 
 	@Override
 	public void draw(Graphics2D g){
-		//Image img = Toolkit.getDefaultToolkit().getImage("boss.png");
-        //g.drawImage(img, x, y, width, height, null);
-        g.setColor(Color.YELLOW);
-		g.fillRect(x, y, width, height);
+		Image img = Toolkit.getDefaultToolkit().getImage("boss.png");
+        g.drawImage(img, x, y, width, height, null);
+        //g.setColor(Color.YELLOW);
+		//g.fillRect(x, y, width, height);
 	}
 
 	public void proceed(){
