@@ -28,8 +28,11 @@ public class GamePanel extends JPanel {
 		big.setColor(Color.RED);
 		big.drawString(String.format("Scores: %d", reporter.getScore()), 300, 20);	
 
-		big.setColor(Color.YELLOW);
+		big.setColor(Color.CYAN);
 		big.drawString(String.format("Items: %d", reporter.getScoreItem()), 300, 40);
+
+		big.setColor(Color.YELLOW);
+		big.drawString(String.format("(Boss:yellow)"), 300, 60);
 
 
 		for(Sprite s : sprites){

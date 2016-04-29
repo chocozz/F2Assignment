@@ -14,13 +14,15 @@ public class Item extends Sprite{
 	public static final int Y_TO_DIE = 600;
 
 	public Item(int x, int y){
-		super(x, y, 40, 40);
+		super(x, y, 10, 30);
 	}
 
 	@Override
 	public void draw(Graphics2D g){
-		Image img = Toolkit.getDefaultToolkit().getImage("item.gif");
-        g.drawImage(img, x, y, width, height, null);
+		//Image img = Toolkit.getDefaultToolkit().getImage("item.gif");
+        //g.drawImage(img, x, y, width, height, null);
+        g.setColor(Color.CYAN);
+		g.fillRect(x, y, width, height);
 	}
 
 	public void proceed(){
